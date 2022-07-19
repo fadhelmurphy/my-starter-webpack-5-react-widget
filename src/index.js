@@ -1,17 +1,33 @@
+/* eslint-disable import/no-anonymous-default-export */
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom';
+import ChatWidget from './components/chat'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+let init = null;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export default {
+  config: (config={
+    selector: "#chat-app",
+    apiKey: "123123123"
+  }) =>{
+      init = config;
+  },
+  widgets: {
+    myWidget: {
+      new: () => {
+        return {
+          render: () => {
+            console.log(init, "init")
+            ReactDOM.render(<ChatWidget 
+                clientKey={init.apiKey}
+                selector={init.selector}  
+            />, document.querySelector(init.selector));
+          },
+          unmount(){
+            ReactDOM.unmountComponentAtNode(document.querySelector(init.selector)); 
+          },
+        }
+      }
+    }
+  }
+}
