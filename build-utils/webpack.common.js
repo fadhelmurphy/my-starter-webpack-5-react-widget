@@ -52,8 +52,10 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
+            filename: `index.html`,
             template: path.join(__dirname, '../public/index.html'),
-            inject: 'body'
+            inject: 'body',
+            scriptLoading: 'blocking'
         }),
         new MiniCssExtractPlugin({
             filename: "widget.css",
